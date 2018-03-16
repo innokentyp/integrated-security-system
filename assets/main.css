@@ -1,0 +1,27 @@
+.page-enter-active, .page-leave-active {
+  transition: all .5s ease-in-out;
+}
+
+.page-enter {
+	opacity: 0;
+  transform: translate(100%, 0);
+}
+
+.page-leave-to {
+	opacity: 0;
+  transform: translate(-100%, 0);
+}
+
+.slide-left-enter-active, .slide-left-leave-active, .slide-right-enter-active, .slide-right-leave-active {
+  transition: all .5s ease-in-out;
+}
+
+.slide-left-enter, .slide-right-leave-to {
+  opacity: 0;
+  transform: translate(100%, 0);
+}
+
+.slide-left-leave-to, .slide-right-enter {
+  opacity: 0;
+  transform: translate(-100%, 0);
+}
