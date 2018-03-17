@@ -4,9 +4,12 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const _18aef37a = () => import('..\\pages\\video.vue' /* webpackChunkName: "pages_video" */).then(m => m.default || m)
-const _20d67848 = () => import('..\\pages\\access-control.vue' /* webpackChunkName: "pages_access-control" */).then(m => m.default || m)
-const _6019e111 = () => import('..\\pages\\fire-safety.vue' /* webpackChunkName: "pages_fire-safety" */).then(m => m.default || m)
-const _7c41b76c = () => import('..\\pages\\security-alarm.vue' /* webpackChunkName: "pages_security-alarm" */).then(m => m.default || m)
+const _b2462910 = () => import('..\\pages\\scenario.vue' /* webpackChunkName: "pages_scenario" */).then(m => m.default || m)
+const _0199813e = () => import('..\\pages\\configuration.vue' /* webpackChunkName: "pages_configuration" */).then(m => m.default || m)
+const _298d29ec = () => import('..\\pages\\archive.vue' /* webpackChunkName: "pages_archive" */).then(m => m.default || m)
+const _32b73fa4 = () => import('..\\pages\\grid.vue' /* webpackChunkName: "pages_grid" */).then(m => m.default || m)
+const _54ebaab8 = () => import('..\\pages\\map.vue' /* webpackChunkName: "pages_map" */).then(m => m.default || m)
+const _13209728 = () => import('..\\pages\\security.vue' /* webpackChunkName: "pages_security" */).then(m => m.default || m)
 const _7413971a = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
 
@@ -73,19 +76,34 @@ export function createRouter () {
 			name: "video"
 		},
 		{
-			path: "/access-control",
-			component: _20d67848,
-			name: "access-control"
+			path: "/scenario",
+			component: _b2462910,
+			name: "scenario"
 		},
 		{
-			path: "/fire-safety",
-			component: _6019e111,
-			name: "fire-safety"
+			path: "/configuration",
+			component: _0199813e,
+			name: "configuration"
 		},
 		{
-			path: "/security-alarm",
-			component: _7c41b76c,
-			name: "security-alarm"
+			path: "/archive",
+			component: _298d29ec,
+			name: "archive"
+		},
+		{
+			path: "/grid",
+			component: _32b73fa4,
+			name: "grid"
+		},
+		{
+			path: "/map",
+			component: _54ebaab8,
+			name: "map"
+		},
+		{
+			path: "/security",
+			component: _13209728,
+			name: "security"
 		},
 		{
 			path: "/",

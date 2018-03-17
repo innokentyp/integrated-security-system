@@ -1,30 +1,26 @@
 <template>
-  <nav role="navigation" aria-label="main navigation">
-    <nuxt-link to="/" :class="{ 'active': $route.name == 'index' }">Home</nuxt-link>
-    <nuxt-link to="/video" :class="{ 'active': $route.name == 'video' }">Видеонаблюдение</nuxt-link>
-    <nuxt-link to="/access-control" :class="{ 'active': $route.name == 'access-control' }">Контроль и управления доступом</nuxt-link>
-    <nuxt-link to="/security-alarm" :class="{ 'active': $route.name == 'security-alarm' }">Охранная сигнализация</nuxt-link>
-    <nuxt-link to="/fire-safety" :class="{ 'active': $route.name == 'fire-safety' }">Пожарная безопасность</nuxt-link>
+  <nav class="ui top fixed inverted stackable menu" role="navigation" aria-label="main navigation">
+    <nuxt-link v-for="(value, key, index) in pages" :key="index" :to="key == 'index' ? '/' : `/${key}`" :class="['item', color[index], { 'active': $route.name == key }]"><i class="home icon" v-if="key == 'index'"></i><span v-else>{{ value }}</span></nuxt-link>
   </nav>
 </template>
 
 <script>
+  import Vue from 'vue'
+
   export default {
-    mounted () {
+    data () {
+      return {
+        color: ['red','orange','yellow','olive','green','teal','blue','violet','purple','pink','brown','grey']
+      }
+    },
+    computed: {
+      pages () {
+        return Vue.pages
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  nav {
-    text-align: center;
-
-    a {
-      margin: 0 .2em;
-
-      &.active {
-        color: orange;
-      }
-    }
-  }
+  
 </style>

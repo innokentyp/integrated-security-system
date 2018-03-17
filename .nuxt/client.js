@@ -80,28 +80,9 @@ async function loadAsyncComponents (to, from, next) {
   this._diffQuery = (this._queryChanged ? getQueryDiff(to.query, from.query) : [])
 
   
-  if (this._pathChanged && this.$loading.start) {
-    this.$loading.start()
-  }
-  
 
   try {
     const Components = await resolveRouteComponents(to)
-    
-    if (!this._pathChanged && this._queryChanged) {
-      // Add a marker on each component that it needs to refresh or not
-      const startLoader = Components.some((Component) => {
-        const watchQuery = Component.options.watchQuery
-        if (watchQuery === true) return true
-        if (Array.isArray(watchQuery)) {
-          return watchQuery.some((key) => this._diffQuery[key])
-        }
-        return false
-      })
-      if (startLoader && this.$loading.start) {
-        this.$loading.start()
-      }
-    }
     
     // Call next()
     next()
@@ -174,8 +155,8 @@ async function render (to, from, next) {
   // nextCalled is true when redirected
   let nextCalled = false
   const _next = path => {
-    if (from.path === path.path && this.$loading.finish) this.$loading.finish()
-    if (from.path !== path.path && this.$loading.pause) this.$loading.pause()
+    
+    
     if (nextCalled) return
     nextCalled = true
     const matches = []
@@ -281,14 +262,14 @@ async function render (to, from, next) {
 
       const hasAsyncData = Component.options.asyncData && typeof Component.options.asyncData === 'function'
       const hasFetch = !!Component.options.fetch
-      const loadingIncrease = (hasAsyncData && hasFetch) ? 30 : 45
+      
 
       // Call asyncData(context)
       if (hasAsyncData) {
         const promise = promisify(Component.options.asyncData, app.context)
         .then(asyncDataResult => {
           applyAsyncData(Component, asyncDataResult)
-          if(this.$loading.increase) this.$loading.increase(loadingIncrease)
+          
         })
         promises.push(promise)
       }
@@ -300,7 +281,7 @@ async function render (to, from, next) {
             p = Promise.resolve(p)
         }
         p.then(fetchResult => {
-          if(this.$loading.increase) this.$loading.increase(loadingIncrease)
+          
         })
         promises.push(p)
       }
@@ -310,7 +291,7 @@ async function render (to, from, next) {
 
     // If not redirected
     if (!nextCalled) {
-      if(this.$loading.finish) this.$loading.finish()
+      
       _lastPaths = Components.map((Component, i) => compile(to.matched[matches[i]].path)(to.params))
       next()
     }

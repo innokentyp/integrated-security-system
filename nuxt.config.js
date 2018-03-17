@@ -10,13 +10,18 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: '/semantic/dist/semantic.min.css' }
+    ],
+    script: [
+      { src: 'https://code.jquery.com/jquery-3.1.1.min.js', integrity: 'sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=', crossorigin: 'anonymous' },
+      { src: '/semantic/dist/semantic.min.js' }
     ]
   },
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: false, // { color: '#3B8070' },
   /*
   ** Build configuration
   */
@@ -33,12 +38,14 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    },
-
-    vendor: [ '~/api/functions.js' ]
+    }
   },
   /* Общие стили */
   css: [ 
     'assets/main.css' 
+  ],
+  /* Плагины */
+  plugins: [
+    '~/plugins/vue-global-objects'
   ]
 }
