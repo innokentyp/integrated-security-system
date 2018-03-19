@@ -38,7 +38,11 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
+    /* Внешние модули */
+    vendor: [
+      'firebase'
+    ]
   },
   /* Общие стили */
   css: [ 
@@ -47,5 +51,10 @@ module.exports = {
   /* Плагины */
   plugins: [
     '~/plugins/vue-global-objects'
-  ]
+  ],
+  router: {
+    middleware: 'authenticated'
+  }
+  // No server-side rendering (only client-side navigation)
+  // mode: 'spa'
 }

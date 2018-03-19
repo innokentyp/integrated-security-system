@@ -6,13 +6,35 @@
 </template>
 
 <script>
-import AppNavigation from '~/components/AppNavigation.vue'
+  import * as firebase from 'firebase'
+  import AppNavigation from '~/components/AppNavigation.vue'
 
-export default {
-  components: {
-    AppNavigation
+  export default {
+    components: {
+      AppNavigation
+    },
+    created () {
+      console.log('default:created')
+
+      // Initialize Firebase
+      // TODO: Replace with your project's customized code snippet
+      if (!firebase.apps.length) {
+        const config = {
+          apiKey: 'AIzaSyDBr5JE7eH_kCk0I3l4gbDMxt5OIVaJUOs',
+          authDomain: 'integrated-security-system.firebaseapp.com',
+          databaseURL: 'https://integrated-security-system.firebaseio.com',
+          projectId: 'integrated-security-system',
+          storageBucket: 'integrated-security-system.appspot.com',
+          messagingSenderId: '782507733260'
+        }
+      
+        firebase.initializeApp(config)
+
+        // To apply the default browser preference instead of explicitly setting it.
+        firebase.auth().useDeviceLanguage()
+      }      
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>

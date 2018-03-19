@@ -5,6 +5,7 @@ Vue.use(
 		install (Vue, options) {
 			console.log('install vue-global-objects')
 
+			// Page Transition
 			Vue.pages = {
 				'index': 'Home',
 			  'video': 'Видеонаблюдение',
@@ -24,7 +25,7 @@ Vue.use(
 			  } 
 
 			  return 'slide-left'
-			}	    
+			}
 	  }
 	}
 )
