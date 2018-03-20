@@ -19,32 +19,24 @@
     </div>  
     <div class="row">    
       <div class="column">
-        <div class="ui segment">
-          <form class="ui form" @submit.prevent="singOutSubmit($event)" v-if="authenticated">
-            <h4 class="ui dividing header">Завершение работы с системой</h4>
-            <button type="submit" class="ui submit button">Submit</button>
-          </form>
+        <form :class="['ui', 'form', { 'loading': loading }, { 'success': authenticated }, { 'error': error }]" @submit.prevent="singInSubmit($event)">
+          <div class="field">
+            <label>E-mail</label>
+            <input placeholder="Адрес электронной почты" type="email" v-model="email" :disabled="authenticated">
+          </div>
+          <div class="field">
+            <label>Пароль</label>
+            <input type="password" v-model="password" :disabled="authenticated">
+          </div>
 
-          <form class="ui form" @submit.prevent="singInSubmit($event)" v-else>
-            <h4 class="ui dividing header">Вход в систему</h4>
-            <div class="field">
-              <label>E-mail</label>
-              <input placeholder="Адрес электронной почты" type="email" v-model="email">
-            </div>
-            <div class="field">
-              <label>Пароль</label>
-              <input type="password" v-model="password">
-            </div>
-           
-            <button type="submit" class="ui submit button">Submit</button>
-          </form>          
-        </div>
+          <div class="ui error message" v-if="error">
+            <div class="header">{{ error.code }}</div>
+            <p>{{ error.message }}</p>
+          </div>
 
-        <div class="ui negative message" v-if="error">
-          <i class="close icon"></i>
-          <div class="header">{{ error.code }}</div>
-          <p>{{ error.message }}</p>
-        </div>
+          <button type="submit" class="ui primary submit button" :disabled="authenticated">Войти в систему</button>
+          <button type="button" class="ui button" :disabled="!authenticated" @click="signOutClick($event)">Выход</button>
+        </form>          
       </div>
     </div>
   </section>
@@ -52,6 +44,7 @@
 
 <script>
   import Vue from 'vue'
+  import { mapState } from 'vuex'
   import * as firebase from 'firebase'
 
   import AppLogo from '~/components/AppLogo.vue'
@@ -63,64 +56,47 @@
     transition (to, from) {
       return Vue.pageTransition(to, from) 
     },
-    props: ['test'],
     data () {
       return {
-        email: 'innokentypolyakov@gmail.com',
-        password: '123456',
-        error: null,
+        email: null,
+        password: null,
 
-        authenticated: false 
+        loading: false,
+        error: null
       }
     },
     computed: {
-      currentUser () {
-        return this.$store.state.user
-      }
+      ...mapState ([ 'authenticated' ])
     },
     methods: {
       singInSubmit (e) {
         this.error = null
+        this.loading = true
 
         firebase.auth().signInWithEmailAndPassword(this.email, this.password)
           .then(
             (user) => {
               // Sign-in successful.
+              this.password = null
+
+              this.loading = false
             }
           )
           .catch(
             (error) => {
               this.error = error
+              this.loading = false
             }
           )
       },
-      singOutSubmit (e) {
-        this.error = null
-
-        firebase.auth().signOut()
-          .then(
-            () => {
-              // Sign-out successful.
-            }
-          )
-          .catch(
-            (error) => {
-              this.error = error
-            }
-          )
+      signOutClick (e) {
+        $('.confirm-sign-out').modal('show')
       }
     },
-    created () {
-      console.log('index:created')
+    mounted () {
+      console.log('index:mounted')
 
-      // Get the currently signed-in user
-      firebase.auth().onAuthStateChanged(
-        (user) => {
-          console.log(`${performance.now()} firebase:onAuthStateChanged`)
-
-          this.authenticated = !!user
-        }
-      )
+      this.email = this.$store.state.email ? this.$store.state.email : 'innokentypolyakov@gmail.com'
     }
   }
 </script>

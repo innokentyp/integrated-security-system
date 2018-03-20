@@ -1,17 +1,51 @@
 <template>
   <div class="app">
-    <app-navigation/>
-    <nuxt/>
+    <app-navigation />
+    <nuxt />
+
+    <div class="ui tiny modal confirm-sign-out">
+      <div class="header">Выход из системы</div>
+      
+      <div class="content">
+        <p>Вы действительно хотите выйти из системы ?</p>
+      </div>
+
+      <div class="actions">
+        <button class="ui cancel negative button">No</button>        
+        <button class="ui approve positive right labeled icon button" @click="signOutClick($event)">Yes<i class="checkmark icon"></i></button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import * as firebase from 'firebase'
+
   import AppNavigation from '~/components/AppNavigation.vue'
 
   export default {
     components: {
       AppNavigation
+    },
+    methods: {
+      ...mapActions([ 'setAuthenticated' ]),
+
+      signOutClick (e) {
+        firebase.auth().signOut()
+          .then(
+            () => {
+              // Sign-out successful.
+
+              this.$router.push({ name: 'index' })
+            }
+          )
+          .catch(
+            (error) => {
+              console.log(error)
+            }
+          )
+      }
     },
     created () {
       console.log('default:created')
@@ -33,13 +67,22 @@
         // To apply the default browser preference instead of explicitly setting it.
         firebase.auth().useDeviceLanguage()
       }      
+
+      // Get the currently signed-in user
+      firebase.auth().onAuthStateChanged(
+        (user) => {
+          console.log(`${performance.now()} firebase:onAuthStateChanged`)
+
+          this.setAuthenticated(user)
+        }
+      )
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .app {
-    padding-top: 320px;
+    padding-top: 360px;
 
     @media screen and (min-width: 768px) {
       padding-top: 40px;

@@ -13,7 +13,7 @@ let layouts = {
 let resolvedLayouts = {}
 
 export default {
-  head: {"title":"integrated-security-system","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","type":"text\u002Fcss","href":"\u002Fsemantic\u002Fdist\u002Fsemantic.min.css"}],"script":[{"src":"https:\u002F\u002Fcode.jquery.com\u002Fjquery-3.1.1.min.js","integrity":"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=","crossorigin":"anonymous"},{"src":"\u002Fsemantic\u002Fdist\u002Fsemantic.min.js"}],"style":[]},
+  head: {"title":"integrated-security-system","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","type":"text\u002Fcss","href":"\u002Fsemantic\u002Fdist\u002Fsemantic.min.css"}],"script":[{"src":"\u002Fjquery\u002Fdist\u002Fjquery.min.js"},{"src":"\u002Fsemantic\u002Fdist\u002Fsemantic.min.js"}],"style":[]},
   render(h, props) {
     
     const layoutEl = h(this.layout || 'nuxt')

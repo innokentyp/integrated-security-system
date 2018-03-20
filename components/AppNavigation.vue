@@ -1,16 +1,25 @@
 <template>
-  <nav class="ui top fixed stackable menu" role="navigation" aria-label="main navigation">
+  <nav class="ui top fixed stackable inverted menu" role="navigation" aria-label="main navigation">
     <nuxt-link v-for="(value, key, index) in pages" :key="index" :to="key == 'index' ? '/' : `/${key}`" :class="['item', color[index], { 'active': $route.name == key }]"><i class="home icon" v-if="key == 'index'"></i><span v-else>{{ value }}</span></nuxt-link>
   
-    <div class="right menu">
-      <a class="item" @click.prevent="signOutClick($event)">Выход</a>
-    </div>
+    <div class="right menu" v-show="authenticated">
+      <div class="ui dropdown link item red">
+        <i class="user icon"></i> <span>{{ email ? email : 'Анонимный' }}</span> <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item">English</a>
+          <a class="item">Russian</a>
+          <a class="item">Spanish</a>
+          <div class="divider"></div>
+          <a class="item" @click.prevent="signOutClick($event)">Выход</a>
+        </div>
+      </div>
+    </div>  
   </nav>
 </template>
 
 <script>
   import Vue from 'vue'
-  import * as firebase from 'firebase'
+  import { mapState } from 'vuex'
 
   export default {
     data () {
@@ -19,26 +28,19 @@
       }
     },
     computed: {
+      ...mapState([ 'authenticated', 'email' ]),
+
       pages () {
         return Vue.pages
       }
     },
     methods: {
       signOutClick (e) {
-        firebase.auth().signOut()
-          .then(
-            () => {
-              // Sign-out successful.
-
-              this.$router.push({ name: 'index' })
-            }
-          )
-          .catch(
-            (error) => {
-              console.log(error)
-            }
-          )
+        $('.confirm-sign-out').modal('show')
       }
+    },
+    mounted () {
+      $('.ui.dropdown.item').dropdown({ on: 'hover', action: 'hide' })
     }
   }
 </script>
