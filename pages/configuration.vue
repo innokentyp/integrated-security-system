@@ -2,7 +2,7 @@
   <section class="ui grid container">
     <div class="row">
       <div class="column">
-        <h1 class="ui header">{{ pages[$route.name] }}</h1>
+        <p>{{ pages[$route.name] }}</p>
       </div>
     </div>
   </section>

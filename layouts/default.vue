@@ -11,8 +11,8 @@
       </div>
 
       <div class="actions">
-        <button class="ui cancel negative button">No</button>        
-        <button class="ui approve positive right labeled icon button" @click="signOutClick($event)">Yes<i class="checkmark icon"></i></button>
+        <button class="ui cancel button">No</button>        
+        <button class="ui approve yellow right labeled icon button" @click="signOutClick($event)">Yes<i class="checkmark icon"></i></button>
       </div>
     </div>
   </div>
@@ -29,7 +29,7 @@
       AppNavigation
     },
     methods: {
-      ...mapActions([ 'setAuthenticated' ]),
+      ...mapActions([ 'setEmail' ]),
 
       signOutClick (e) {
         firebase.auth().signOut()
@@ -37,7 +37,6 @@
             () => {
               // Sign-out successful.
 
-              this.$router.push({ name: 'index' })
             }
           )
           .catch(
@@ -73,7 +72,19 @@
         (user) => {
           console.log(`${performance.now()} firebase:onAuthStateChanged`)
 
-          this.setAuthenticated(user)
+          this.setEmail(user)
+
+          if (!user) {
+            if (this.$route.name == 'index') {
+              this.$nextTick(
+                () => { 
+                  document.forms['form-sign-in-out'].elements.email.focus() 
+                }
+              )
+            } else {
+              this.$router.push({ name: 'index' })
+            }
+          }
         }
       )
     }

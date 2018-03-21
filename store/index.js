@@ -1,19 +1,26 @@
 export const state = () => (
 	{
-		authenticated: false,
 		email: null
 	}
 )
 
+export const getters = {
+	authenticated (state, getters) {
+		return !!state.email
+	},		
+	email (state, getters) {
+		return state.email
+	},
+}
+
 export const mutations = {
-	SET_AUTHENTICATED (state, user) {
-		state.authenticated = !!user
+	SET_EMAIL (state, user) {
 		state.email = user ? user.email : null
 	}		
 }
 
 export const actions = {
-	setAuthenticated ({ commit }, user) {
-		commit('SET_AUTHENTICATED', user)
+	setEmail ({ commit }, user) {
+		commit('SET_EMAIL', user)
 	}
 }

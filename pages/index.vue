@@ -1,10 +1,10 @@
 <template>
-  <section class="ui grid container">
+  <section class="ui stackable centered grid container">
     <div class="row">
       <div class="column center aligned">
         <app-logo/>
-        <h1 class="ui header">integrated-security-system</h1>
-        <h2 class="ui header">Nuxt.js project</h2>
+        <h4 class="ui header">integrated-security-system</h4>
+        <p>Nuxt.js project</p>
         <div class="ui compact menu">
           <a
             href="https://nuxtjs.org/"
@@ -18,24 +18,27 @@
       </div>
     </div>  
     <div class="row">    
-      <div class="column">
-        <form :class="['ui', 'form', { 'loading': loading }, { 'success': authenticated }, { 'error': error }]" @submit.prevent="singInSubmit($event)">
+      <div class="eight wide column">
+        <form id="form-sign-in-out" method="post" novalidate :class="['ui', 'form', { 'loading': loading }]" @submit.prevent="singInSubmit($event)">
+          <p>Введите адрес электронной почты и пароль</p>
           <div class="field">
             <label>E-mail</label>
-            <input placeholder="Адрес электронной почты" type="email" v-model="email" :disabled="authenticated">
+            <input type="email" name="email" ref="email" :disabled="authenticated" :placeholder="email">
           </div>
           <div class="field">
             <label>Пароль</label>
-            <input type="password" v-model="password" :disabled="authenticated">
+            <input type="password" name="password" autocomplete="new-password" :disabled="authenticated">
           </div>
 
-          <div class="ui error message" v-if="error">
+          <div class="ui error message"></div>
+
+          <div class="ui negative message" v-if="error">
             <div class="header">{{ error.code }}</div>
             <p>{{ error.message }}</p>
           </div>
 
           <button type="submit" class="ui primary submit button" :disabled="authenticated">Войти в систему</button>
-          <button type="button" class="ui button" :disabled="!authenticated" @click="signOutClick($event)">Выход</button>
+          <button type="button" class="ui yellow button" :disabled="!authenticated" @click="signOutClick($event)">Выход</button>
         </form>          
       </div>
     </div>
@@ -44,7 +47,7 @@
 
 <script>
   import Vue from 'vue'
-  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
   import * as firebase from 'firebase'
 
   import AppLogo from '~/components/AppLogo.vue'
@@ -58,26 +61,24 @@
     },
     data () {
       return {
-        email: null,
-        password: null,
-
         loading: false,
         error: null
       }
     },
     computed: {
-      ...mapState ([ 'authenticated' ])
+      ...mapGetters([ 'authenticated', 'email' ])
     },
     methods: {
       singInSubmit (e) {
         this.error = null
+
         this.loading = true
 
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        firebase.auth().signInWithEmailAndPassword(e.target.elements.email.value, e.target.elements.password.value)
           .then(
             (user) => {
               // Sign-in successful.
-              this.password = null
+              e.target.reset()
 
               this.loading = false
             }
@@ -85,6 +86,7 @@
           .catch(
             (error) => {
               this.error = error
+
               this.loading = false
             }
           )
@@ -96,12 +98,19 @@
     mounted () {
       console.log('index:mounted')
 
-      this.email = this.$store.state.email ? this.$store.state.email : 'innokentypolyakov@gmail.com'
+      this.$nextTick(
+        () => { 
+          if (!this.authenticated) this.$refs.email.focus()
+        }  
+      )
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  input[name='email']::placeholder {
+    color: green;
+  }
   /*
   .container {
     min-height: 100vh;

@@ -3,7 +3,7 @@
     <nuxt-link v-for="(value, key, index) in pages" :key="index" :to="key == 'index' ? '/' : `/${key}`" :class="['item', color[index], { 'active': $route.name == key }]"><i class="home icon" v-if="key == 'index'"></i><span v-else>{{ value }}</span></nuxt-link>
   
     <div class="right menu" v-show="authenticated">
-      <div class="ui dropdown link item red">
+      <div class="ui dropdown link item yellow">
         <i class="user icon"></i> <span>{{ email ? email : 'Анонимный' }}</span> <i class="dropdown icon"></i>
         <div class="menu">
           <a class="item">English</a>
@@ -19,7 +19,7 @@
 
 <script>
   import Vue from 'vue'
-  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     data () {
@@ -28,7 +28,7 @@
       }
     },
     computed: {
-      ...mapState([ 'authenticated', 'email' ]),
+      ...mapGetters([ 'authenticated', 'email' ]),
 
       pages () {
         return Vue.pages
