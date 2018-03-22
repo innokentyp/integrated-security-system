@@ -24,10 +24,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .column {
-    outline: dotted 1px gray; 
-  }
-
   /*
   .container {
     min-height: 100vh;

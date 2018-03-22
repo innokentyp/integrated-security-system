@@ -93,10 +93,10 @@
 
 <style lang="scss" scoped>
   .app {
-    padding-top: 360px;
+    padding-top: 334px;
 
     @media screen and (min-width: 768px) {
-      padding-top: 40px;
+      padding-top: 38px;
     }    
   }
 

@@ -22,12 +22,18 @@
         <form id="form-sign-in-out" method="post" novalidate :class="['ui', 'form', { 'loading': loading }]" @submit.prevent="singInSubmit($event)">
           <p>Введите адрес электронной почты и пароль</p>
           <div class="field">
-            <label>E-mail</label>
-            <input type="email" name="email" ref="email" :disabled="authenticated" :placeholder="email">
+            <!--<label for="email">E-mail</label>-->
+            <div class="ui left icon input">
+              <input type="email" id="email" name="email" ref="email" :disabled="authenticated" :placeholder="email">
+              <i class="user icon"></i>            
+            </div>  
           </div>
           <div class="field">
-            <label>Пароль</label>
-            <input type="password" name="password" autocomplete="new-password" :disabled="authenticated">
+            <!--<label for="password">Пароль</label>-->
+            <div class="ui left icon input">
+              <input type="password" id="password" name="password" autocomplete="new-password" :disabled="authenticated">
+              <i class="lock icon"></i>  
+            </div>
           </div>
 
           <div class="ui error message"></div>
@@ -38,7 +44,7 @@
           </div>
 
           <button type="submit" class="ui primary submit button" :disabled="authenticated">Войти в систему</button>
-          <button type="button" class="ui yellow button" :disabled="!authenticated" @click="signOutClick($event)">Выход</button>
+          <button type="button" class="ui button" :disabled="!authenticated" @click="signOutClick($event)">Выход</button>
         </form>          
       </div>
     </div>
@@ -108,9 +114,20 @@
 </script>
 
 <style lang="scss" scoped>
-  input[name='email']::placeholder {
-    color: green;
+  #form-sign-in-out {
+    input[name]:disabled {
+      background-color: green;
+
+      &::placeholder {
+        color: white;
+      }
+
+      &+.icon {
+        color: white;
+      }
+    }
   }
+
   /*
   .container {
     min-height: 100vh;

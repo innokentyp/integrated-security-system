@@ -8,8 +8,8 @@ Vue.use(
 			// Page Transition
 			Vue.pages = {
 				'index': 'Home',
-			  'video': 'Видеонаблюдение',
-        'map': 'План',
+			  'map': 'Карта',
+			  'video': 'Видеонаблюдение',        
         'grid': 'Командная сетка',
         'archive': 'Архив',
         'configuration': 'Конфигурация',
